@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "273545525475",
+    "firebase_url": "https://saveme-edd8c.firebaseio.com",
+    "project_id": "saveme-edd8c",
+    "storage_bucket": "saveme-edd8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273545525475:android:ad0d6e05b000309f",
+        "android_client_info": {
+          "package_name": "com.example.jaeho.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273545525475-2i597vd9701l05mehhq9n6prk04iop1i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLr9Wp2-KCfzsNxBIz10F2h11fJoi4TbE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
