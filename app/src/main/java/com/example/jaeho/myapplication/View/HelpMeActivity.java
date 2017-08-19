@@ -13,6 +13,7 @@ import com.example.jaeho.myapplication.R;
 import com.nhn.android.maps.maplib.NGPoint;
 import com.nhn.android.maps.maplib.NGeoPoint;
 
+import static com.example.jaeho.myapplication.Controler.NAuth.myInform;
 import static com.example.jaeho.myapplication.utils.Constants.showProgressDialog;
 
 public class HelpMeActivity extends AppCompatActivity {
@@ -30,7 +31,7 @@ public class HelpMeActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myDao.addEmergency(nGeoPoint.getLatitude(),nGeoPoint.getLongitude(),"poketred");//이부분을 동적으로 바꿔야함.lat lng id
+                myDao.addEmergency(nGeoPoint.getLatitude(),nGeoPoint.getLongitude(),myInform.getEmail());//이부분을 동적으로 바꿔야함.lat lng id
                 tv.setText("도움을 요청중입니다.");
             }
         });

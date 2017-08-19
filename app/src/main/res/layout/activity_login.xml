@@ -5,37 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.jaeho.myapplication.View.MainActivity">
-
+    tools:context="com.example.jaeho.myapplication.View.LoginActivity">
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="HelpMeActivity"/>
-    <TextView
-        android:id="@+id/locationText"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <FrameLayout
-        android:id="@+id/mapFrame"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
-    <Button
-        android:id="@+id/gpsBtn"
+    <EditText
+        android:hint="Id"
+        android:id="@+id/idEditText"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <Button
-        android:id="@+id/helpBtn"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <EditText
+        android:text="aa"
+        android:id="@+id/passwdEditText"
         android:layout_weight="1"
-        android:text="HelpMeActivity"/>
-    <Button
-        android:id="@+id/helpListBtn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+        android:hint="로그인"
+        android:id="@+id/loginBtn"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -43,11 +32,9 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <Button
-        android:id="@+id/selectBtn"
-        android:text="Select"
+    <TextView
+        android:id="@+id/joinText"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 </LinearLayout>

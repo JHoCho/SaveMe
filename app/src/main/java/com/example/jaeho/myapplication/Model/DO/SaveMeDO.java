@@ -6,18 +6,28 @@ package com.example.jaeho.myapplication.Model.DO;
  */
 
 public class SaveMeDO {
-    private int age;
+    private String age;
     private double lat;
     private double lng;
     private String location;
     private String name;
     private String time;
+    private String email;
     public SaveMeDO(){}
-    public int getAge() {
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 

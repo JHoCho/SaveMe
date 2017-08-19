@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class Constants {
     public static ProgressDialog prdlg;
-
+    public static final int MESSAGE_DONE = 1431;
     public static void showProgressDialog(Context context) {
         prdlg = ProgressDialog.show(context, "잠시만 기다려주세요", "서버와 통신중 입니다.", true);
     }
