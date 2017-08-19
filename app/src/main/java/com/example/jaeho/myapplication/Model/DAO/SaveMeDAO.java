@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.jaeho.myapplication.utils.Constants;
+import com.example.jaeho.myapplication.utils.Constants.*;
 import com.example.jaeho.myapplication.View.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +27,8 @@ import java.util.HashMap;
 
 import static com.example.jaeho.myapplication.Controler.NAuth.myInform;
 import static com.example.jaeho.myapplication.utils.Constants.hidProgressDialog;
+import static com.example.jaeho.myapplication.utils.Constants.myLat;
+import static com.example.jaeho.myapplication.utils.Constants.myLng;
 import static com.example.jaeho.myapplication.utils.Constants.showProgressDialog;
 import static com.example.jaeho.myapplication.utils.Constants.tostost;
 
@@ -53,12 +57,11 @@ public abstract class SaveMeDAO implements ISaveMeDAO {
         doo.setId(id);
         SaveMeDO saveMeDO = new SaveMeDO();
         saveMeDO.setLng(lng);
-        Date d = new Date();
-        SimpleDateFormat formatType = new SimpleDateFormat("yyyy-MM-dd kk:mm");
         HashMap<String,Object> hashMap = new HashMap<String,Object>();
-        hashMap.put("lat",dtoS(lat));
-        hashMap.put("lng",dtoS(lng));
-        hashMap.put("time",formatType.format(d));
+        long time = System.currentTimeMillis();
+        hashMap.put("lat",myLat);
+        hashMap.put("lng",myLng);
+        hashMap.put("time",time);
         showProgressDialog(context);
         mRef.child("emergency").push().setValue(doo).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -112,6 +115,8 @@ public abstract class SaveMeDAO implements ISaveMeDAO {
                             mUserRef.setValue(myInform);
                             myInform.setEmail(tmpEmail);
                             Intent intent = new Intent(context, MainActivity.class);
+                            intent.putExtra("id",myInform.getEmail());
+                            Constants.nowLoginId = myInform.getEmail();
                             context.startActivity(intent);
                             ((AppCompatActivity)context).finish();
                         }
@@ -121,6 +126,8 @@ public abstract class SaveMeDAO implements ISaveMeDAO {
                     //mUserRef.setValue();
                 }else {
                     Intent intent = new Intent(context, MainActivity.class);
+                    intent.putExtra("id",myInform.getEmail());
+                    Constants.nowLoginId = myInform.getEmail();
                     context.startActivity(intent);
                     ((AppCompatActivity)context).finish();
                 }

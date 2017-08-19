@@ -20,6 +20,7 @@ import com.example.jaeho.myapplication.Model.DAO.ISaveMeDAO;
 import com.example.jaeho.myapplication.Model.DAO.NowUsingDAO;
 import com.example.jaeho.myapplication.R;
 import com.google.gson.Gson;
+import com.nhn.android.maps.NMapLocationManager;
 import com.nhn.android.maps.maplib.NGeoPoint;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
@@ -45,7 +46,10 @@ public class LoginActivity extends AppCompatActivity {
     OAuthLoginButton loginBtn;
     TextView joinText;
     private static Context mContext;
-    final NGeoPoint nGeoPoint = new NGeoPoint();
+    NMapLocationManager nMapLocationManager;
+    NGeoPoint nGeoPoint = new NGeoPoint();
+
+
     ISaveMeDAO myDao = new NowUsingDAO(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,11 +154,12 @@ public class LoginActivity extends AppCompatActivity {
             Date d = new Date();
             SimpleDateFormat formatType = new SimpleDateFormat("yyyy-MM-dd kk:mm");
             myInform.setTime(formatType.format(d));
+
             myInform.setLat(nGeoPoint.getLatitude());
             myInform.setLng(nGeoPoint.getLongitude());
             StringTokenizer stk = new StringTokenizer(String.valueOf(childMap.get("email")),"@");
             myInform.setEmail(stk.nextToken());
-            myInform.setLocation("GEO코더 쓸꺼임");
+            myInform.setLocation("sssss");
             myInform.setAge(String.valueOf(childMap.get("age")));
             //myInform.setName(String.valueOf(childMap.get("name")));
             myDao.checkSignUp(myInform.getEmail());
