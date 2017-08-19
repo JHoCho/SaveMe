@@ -1,53 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.jaeho.myapplication.View.MainActivity">
-
-    <ImageView
-        android:id="@+id/imageView"
+    android:background="#FFFFFF">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="HelpMeActivity"/>
-    <TextView
-        android:id="@+id/locationText"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <FrameLayout
-        android:id="@+id/mapFrame"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
-    <Button
-        android:id="@+id/gpsBtn"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <Button
-        android:id="@+id/helpBtn"
+        android:layout_weight="0.8"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/simplelogo"
+            android:scaleType="fitCenter"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="HelpMeActivity"/>
-    <Button
-        android:id="@+id/helpListBtn"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <TextView
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <Button
-        android:id="@+id/selectBtn"
-        android:text="Select"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_weight="0.8"
+        android:gravity="right|center_vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginRight="10dp">
 
+            <Switch
+                android:id="@+id/holdSwitch"
+                android:layout_width="90dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="#333333"
+                android:text="잠금화면"
+                android:textSize="25dp"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_weight="0.5"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_weight="0.3"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.6"
+                android:layout_gravity="center|center_vertical"
+                android:text="현재 위치"
+                android:textColor="#333333"
+                android:gravity="center_vertical"
+                android:textSize="30dp"/>
+
+            <TextView
+                android:id="@+id/locationText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="0.2"
+                android:background="@drawable/edittextline"
+                android:paddingLeft="5dp"
+                android:text="경기도 화성시 문화센터로 39"
+                android:textColor="#5e5e5e"
+                android:gravity="center_vertical"
+                android:textSize="28dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7">
+
+                <ImageButton
+                    android:id="@+id/gpsBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ededed"
+                    android:padding="8dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/gps" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ex_map"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.55"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3">
+
+            <Button
+                android:id="@+id/helpListBtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/helplistbackground"
+                android:gravity="center"
+                android:text="신고\n현황"
+                android:textColor="#FFFFFF"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/helpBtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="35dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/helpbackground"
+                android:gravity="center"
+                android:text="신고\n요청"
+                android:textColor="#FFFFFF"
+                android:textSize="40dp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.75"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3">
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.65">
+                    <ImageView
+                        android:layout_gravity="bottom"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/warningpoint"/>
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="-10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:layout_gravity="top"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="[경고] 허위 신고 시 처벌 받을 수 있습니다."
+                    android:textStyle="bold"
+                    android:textColor="#c0392b"
+                    android:background="#ededed"
+                    android:gravity="center"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="30dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>

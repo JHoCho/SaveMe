@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.widget.Toast;
 
+import okhttp3.MediaType;
+
 /**
  * Created by jaeho on 2017. 8. 18..
  */
@@ -20,5 +22,6 @@ public class Constants {
     public static void hidProgressDialog() {
         prdlg.dismiss();
     }
+    public static final MediaType JSON= MediaType.parse("application/json; charset=utf-8");
 
 }
