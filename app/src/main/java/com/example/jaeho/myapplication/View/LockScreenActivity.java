@@ -6,8 +6,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 
 import com.example.jaeho.myapplication.Controler.ScreenReceiver;
@@ -16,6 +19,7 @@ import com.example.jaeho.myapplication.R;
 
 public class LockScreenActivity extends AppCompatActivity {
     SeekBar seekBar;
+    ImageButton holdHelpBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,13 @@ public class LockScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lock_screen);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         seekBar = (SeekBar) findViewById(R.id.seekbar);
+        holdHelpBtn = (ImageButton) findViewById(R.id.holdHelpBtn);
+        holdHelpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.report(LockScreenActivity.this);
+            }
+        });
         setSeekbar(seekBar, getResources());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int i = 0;

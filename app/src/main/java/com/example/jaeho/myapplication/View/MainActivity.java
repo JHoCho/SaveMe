@@ -55,6 +55,7 @@ import static com.example.jaeho.myapplication.utils.Constants.hidProgressDialog;
 import static com.example.jaeho.myapplication.utils.Constants.myLat;
 import static com.example.jaeho.myapplication.utils.Constants.myLng;
 import static com.example.jaeho.myapplication.utils.Constants.nowLocation;
+import static com.example.jaeho.myapplication.utils.Constants.nowLoginId;
 import static com.example.jaeho.myapplication.utils.Constants.showProgressDialog;
 
 public class MainActivity extends AppCompatActivity {
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
         id = getIntent().getStringExtra("id");
         flag = getIntent().getBooleanExtra("flag",false);
 
@@ -95,77 +97,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        final DatabaseReference dr = FirebaseDatabase.getInstance().getReference().child("saveme/emergency");
         helpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nGeoPoint = new NGeoPoint(myLat,myLng);
-                showProgressDialog(MainActivity.this);
-                StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
-                final DatabaseReference userDr = FirebaseDatabase.getInstance().getReference().child("saveme/user/"+id);
-                userDr.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        HashMap map = (HashMap)dataSnapshot.getValue();
-                        long reportTime = (long)map.get("time");
-                        long time= System.currentTimeMillis();
-                        hidProgressDialog();
-                        if(time-reportTime<60000){
-                            Toast.makeText(MainActivity.this, "신고 간격이 너무 빠릅니다 잠시후 시도해주세요.", Toast.LENGTH_SHORT).show();
-                        }else{
-                            DatabaseReference pushRf = dr.push();
-                            String key = pushRf.getKey();
-
-                            String message = "위험에 빠졌어요!";
-                            EmergencyDO eDo = new EmergencyDO();
-                            eDo.setId(id);
-                            eDo.setKey(key);
-                            eDo.setMessage(message);
-                            eDo.setTime(time);
-                            pushRf.setValue(eDo);
-                            userDr.child("time").setValue(time);
-                            userDr.child("lat").setValue(myLat);
-                            userDr.child("lng").setValue(myLng);
-                            Toast.makeText(MainActivity.this, "신고가 접수되었습니다.", Toast.LENGTH_SHORT).show();
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    try {
-                                        OkHttpClient client = new OkHttpClient();
-                                        JSONObject json=new JSONObject();
-                                        JSONObject dataJson=new JSONObject();
-                                        dataJson.put("body","위험에 빠졌어요! 도와주세요!!");
-                                        dataJson.put("title","※ Save Me Plz ※");
-                                        dataJson.put("lat",myLat);
-                                        dataJson.put("lng",myLng);
-                                        json.put("data",dataJson);
-                                        json.put("to","/topics/"+nowLocation);
-                                        //Toast.makeText(mapContext, nowLocation, Toast.LENGTH_SHORT).show();
-                                        RequestBody body = RequestBody.create(JSON, json.toString());
-                                        Request request = new Request.Builder()
-                                                .header("Authorization","key=AAAAP7CVeOM:APA91bHP5ALJ2vb7iREvP42sxXXoZm_jnoj1H6oZHv3tViSNxKPzZizvVrbdJfzN3VCRIH-QvSUJoP91h-nRbevt3VseHdT8m_gP8cm7iIj0MeeXG3LIDN8Ddx2Y8-G_iBw2mZl27ux-")
-                                                .url("https://fcm.googleapis.com/fcm/send")
-                                                .post(body)
-                                                .build();
-                                        Response response = client.newCall(request).execute();
-                                        String finalResponse = response.body().string();
-                                    }catch (Exception e){
-                                        //Log.d(TAG,e+"");
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }).start();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-
+               report(MainActivity.this);
             }
         });
         gpsBtn.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +128,144 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    public static void report(final Context context){
+        final DatabaseReference dr = FirebaseDatabase.getInstance().getReference().child("saveme/emergency");
+        showProgressDialog(context);
+        final DatabaseReference userDr = FirebaseDatabase.getInstance().getReference().child("saveme/user/"+nowLoginId);
+        userDr.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                HashMap map = (HashMap)dataSnapshot.getValue();
+                long reportTime = (long)map.get("time");
+                long time= System.currentTimeMillis();
+                hidProgressDialog();
+                if(time-reportTime<60000){
+                    Toast.makeText(context, "신고 간격이 너무 빠릅니다 잠시후 시도해주세요.", Toast.LENGTH_SHORT).show();
+                }else{
+                    DatabaseReference pushRf = dr.push();
+                    String key = pushRf.getKey();
+
+                    String message = "위험에 빠졌어요!";
+                    EmergencyDO eDo = new EmergencyDO();
+                    eDo.setId(nowLoginId);
+                    eDo.setKey(key);
+                    eDo.setMessage(message);
+                    eDo.setTime(time);
+                    pushRf.setValue(eDo);
+                    userDr.child("time").setValue(time);
+                    userDr.child("lat").setValue(myLat);
+                    userDr.child("lng").setValue(myLng);
+                    Toast.makeText(context, "신고가 접수되었습니다.", Toast.LENGTH_SHORT).show();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            try {
+                                OkHttpClient client = new OkHttpClient();
+                                JSONObject json=new JSONObject();
+                                JSONObject dataJson=new JSONObject();
+                                dataJson.put("body","위험에 빠졌어요! 도와주세요!!");
+                                dataJson.put("title","※ Save Me Plz ※");
+                                dataJson.put("lat",myLat);
+                                dataJson.put("lng",myLng);
+                                json.put("data",dataJson);
+                                json.put("to","/topics/"+nowLocation);
+                                //Toast.makeText(mapContext, nowLocation, Toast.LENGTH_SHORT).show();
+                                RequestBody body = RequestBody.create(JSON, json.toString());
+                                Request request = new Request.Builder()
+                                        .header("Authorization","key=AAAAP7CVeOM:APA91bHP5ALJ2vb7iREvP42sxXXoZm_jnoj1H6oZHv3tViSNxKPzZizvVrbdJfzN3VCRIH-QvSUJoP91h-nRbevt3VseHdT8m_gP8cm7iIj0MeeXG3LIDN8Ddx2Y8-G_iBw2mZl27ux-")
+                                        .url("https://fcm.googleapis.com/fcm/send")
+                                        .post(body)
+                                        .build();
+                                Response response = client.newCall(request).execute();
+                                String finalResponse = response.body().string();
+                            }catch (Exception e){
+                                //Log.d(TAG,e+"");
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
+    public static void report2(){
+        final DatabaseReference dr = FirebaseDatabase.getInstance().getReference().child("saveme/emergency");
+        //showProgressDialog(context);
+        final DatabaseReference userDr = FirebaseDatabase.getInstance().getReference().child("saveme/user/"+nowLoginId);
+        userDr.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                HashMap map = (HashMap)dataSnapshot.getValue();
+                long reportTime = (long)map.get("time");
+                long time= System.currentTimeMillis();
+//                hidProgressDialog();
+                if(time-reportTime<60000){
+             //       Toast.makeText(context, "신고 간격이 너무 빠릅니다 잠시후 시도해주세요.", Toast.LENGTH_SHORT).show();
+                }else{
+                    DatabaseReference pushRf = dr.push();
+                    String key = pushRf.getKey();
+
+                    String message = "위험에 빠졌어요!";
+                    EmergencyDO eDo = new EmergencyDO();
+                    eDo.setId(nowLoginId);
+                    eDo.setKey(key);
+                    eDo.setMessage(message);
+                    eDo.setTime(time);
+                    pushRf.setValue(eDo);
+                    userDr.child("time").setValue(time);
+                    userDr.child("lat").setValue(myLat);
+                    userDr.child("lng").setValue(myLng);
+              //      Toast.makeText(context, "신고가 접수되었습니다.", Toast.LENGTH_SHORT).show();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            try {
+                                OkHttpClient client = new OkHttpClient();
+                                JSONObject json=new JSONObject();
+                                JSONObject dataJson=new JSONObject();
+                                dataJson.put("body","위험에 빠졌어요! 도와주세요!!");
+                                dataJson.put("title","※ Save Me Plz ※");
+                                dataJson.put("lat",myLat);
+                                dataJson.put("lng",myLng);
+                                json.put("data",dataJson);
+                                json.put("to","/topics/"+nowLocation);
+                                //Toast.makeText(mapContext, nowLocation, Toast.LENGTH_SHORT).show();
+                                RequestBody body = RequestBody.create(JSON, json.toString());
+                                Request request = new Request.Builder()
+                                        .header("Authorization","key=AAAAP7CVeOM:APA91bHP5ALJ2vb7iREvP42sxXXoZm_jnoj1H6oZHv3tViSNxKPzZizvVrbdJfzN3VCRIH-QvSUJoP91h-nRbevt3VseHdT8m_gP8cm7iIj0MeeXG3LIDN8Ddx2Y8-G_iBw2mZl27ux-")
+                                        .url("https://fcm.googleapis.com/fcm/send")
+                                        .post(body)
+                                        .build();
+                                Response response = client.newCall(request).execute();
+                                String finalResponse = response.body().string();
+                            }catch (Exception e){
+                                //Log.d(TAG,e+"");
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
     }
 
 }

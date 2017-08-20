@@ -59,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
 
         initData();
         loginBtn = (OAuthLoginButton) findViewById(R.id.loginBtn);
-        joinText = (TextView) findViewById(R.id.joinText);
         mOAuthLoginModule.startOauthLoginActivity(LoginActivity.this, mOAuthLoginHandler);//들어가자마자 토큰검사
     }
 
