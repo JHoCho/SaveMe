@@ -81,7 +81,7 @@
                 android:layout_weight="0.2"
                 android:background="@drawable/edittextline"
                 android:paddingLeft="5dp"
-                android:text="경기도 화성시 문화센터로 39"
+                android:text= "현재 주소를 불러오는 중입니다."
                 android:textColor="#5e5e5e"
                 android:gravity="center_vertical"
                 android:textSize="28dp"/>

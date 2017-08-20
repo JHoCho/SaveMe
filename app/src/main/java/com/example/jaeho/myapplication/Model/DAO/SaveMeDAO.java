@@ -94,7 +94,7 @@ public abstract class SaveMeDAO implements ISaveMeDAO {
     public void addLocation(double lat, double lng) {
 
     }
-    public void checkSignUp(String id){
+    public void checkSignUp(String id, final Intent pushData){
         mUserRef = mRootRef.child("saveme/user/"+id);
         mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -107,7 +107,7 @@ public abstract class SaveMeDAO implements ISaveMeDAO {
                     AlertDialog.Builder dlg = new AlertDialog.Builder(context)
                             .setTitle("이름 설정해주세요")
                             .setMessage("이름써주세요")
-                            .setView(edt);//아부분이 아마 콘텍스트가 메인으로 안가고끝나버린 LoginActivity로 가서 망가질듯
+                            .setView(edt);//아부분이 아마 콘텍스트가 메인으로 mMapContext.findPlacemarkAtLocation(myLng,myLat);안가고끝나버린 LoginActivity로 가서 망가질듯
                     dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -116,6 +116,11 @@ public abstract class SaveMeDAO implements ISaveMeDAO {
                             myInform.setEmail(tmpEmail);
                             Intent intent = new Intent(context, MainActivity.class);
                             intent.putExtra("id",myInform.getEmail());
+                            if(pushData!=null){
+                                intent.putExtra("flag",pushData.getBooleanExtra("flag",false));
+                                intent.putExtra("lat",pushData.getDoubleExtra("lat",0));
+                                intent.putExtra("lng",pushData.getDoubleExtra("lng",0));
+                            }
                             Constants.nowLoginId = myInform.getEmail();
                             context.startActivity(intent);
                             ((AppCompatActivity)context).finish();
@@ -127,6 +132,11 @@ public abstract class SaveMeDAO implements ISaveMeDAO {
                 }else {
                     Intent intent = new Intent(context, MainActivity.class);
                     intent.putExtra("id",myInform.getEmail());
+                    if(pushData!=null){
+                        intent.putExtra("flag",pushData.getBooleanExtra("flag",false));
+                        intent.putExtra("lat",pushData.getDoubleExtra("lat",0));
+                        intent.putExtra("lng",pushData.getDoubleExtra("lng",0));
+                    }
                     Constants.nowLoginId = myInform.getEmail();
                     context.startActivity(intent);
                     ((AppCompatActivity)context).finish();

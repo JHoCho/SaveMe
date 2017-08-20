@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.StrictMode;
+import android.support.annotation.BoolRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jaeho.myapplication.Controler.GPSUpdateService;
 import com.example.jaeho.myapplication.Controler.ScreenService;
 import com.example.jaeho.myapplication.Model.DO.EmergencyDO;
 import com.example.jaeho.myapplication.R;
@@ -62,22 +64,32 @@ public class MainActivity extends AppCompatActivity {
     Context mapContext;
     TextView locationText;
     String id ;
+    boolean flag = false;
     private final String CLIENT_ID = "EzpY2nBNeLRnW5p6Z50T";
     private NGeoPoint nGeoPoint;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         id = getIntent().getStringExtra("id");
+        flag = getIntent().getBooleanExtra("flag",false);
+
         helpBtn = (Button)findViewById(R.id.helpBtn);
         locationText = (TextView)findViewById(R.id.locationText);
         gpsBtn = (ImageButton)findViewById(R.id.gpsBtn);
         holdSwitch = (Switch)findViewById(R.id.holdSwitch);
-        Fragment1 fragment1 = new Fragment1();
+        final Fragment1 fragment1 = new Fragment1();
+        if(flag){
+            Toast.makeText(MainActivity.this, "플래그 수신", Toast.LENGTH_SHORT).show();
+            fragment1.lat = getIntent().getDoubleExtra("lat",0);
+            fragment1.lng = getIntent().getDoubleExtra("lng",0);
+            fragment1.flag = flag;
+        }
         fragment1.setArguments(new Bundle());
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.add(R.id.NMapFrame,fragment1);
         fragmentTransaction.commit();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mapContext = fragment1.getContext();
 
@@ -125,8 +137,11 @@ public class MainActivity extends AppCompatActivity {
                                         JSONObject dataJson=new JSONObject();
                                         dataJson.put("body","위험에 빠졌어요! 도와주세요!!");
                                         dataJson.put("title","※ Save Me Plz ※");
+                                        dataJson.put("lat",myLat);
+                                        dataJson.put("lng",myLng);
                                         json.put("data",dataJson);
                                         json.put("to","/topics/"+nowLocation);
+                                        //Toast.makeText(mapContext, nowLocation, Toast.LENGTH_SHORT).show();
                                         RequestBody body = RequestBody.create(JSON, json.toString());
                                         Request request = new Request.Builder()
                                                 .header("Authorization","key=AAAAP7CVeOM:APA91bHP5ALJ2vb7iREvP42sxXXoZm_jnoj1H6oZHv3tViSNxKPzZizvVrbdJfzN3VCRIH-QvSUJoP91h-nRbevt3VseHdT8m_gP8cm7iIj0MeeXG3LIDN8Ddx2Y8-G_iBw2mZl27ux-")
@@ -137,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                                         String finalResponse = response.body().string();
                                     }catch (Exception e){
                                         //Log.d(TAG,e+"");
+                                        e.printStackTrace();
                                     }
                                 }
                             }).start();
@@ -155,8 +171,12 @@ public class MainActivity extends AppCompatActivity {
         gpsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(doSiDongName!=null)
-                locationText.setText(doSiDongName);
+
+                if(doSiDongName!=null) {
+
+                    locationText.setText(doSiDongName);
+                }
+                System.out.println(doSiDongName);
             }
         });
         if(doSiDongName!=null)

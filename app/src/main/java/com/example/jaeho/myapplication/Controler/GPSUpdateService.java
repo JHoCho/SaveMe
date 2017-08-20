@@ -65,12 +65,14 @@ public class GPSUpdateService extends Service implements Runnable {
                         //파이어베이스에 등록된 위치데이터
                         //내가 가지고 있는 위치 데이터를 찾아야함.
                         if(!nowLocation.equals(location)){
-                            FirebaseMessaging.getInstance().subscribeToTopic(nowLocation);
                             FirebaseMessaging.getInstance().unsubscribeFromTopic(location);
+                            FirebaseMessaging.getInstance().subscribeToTopic(nowLocation);
+
                             dr.child("location").setValue(nowLocation);
                             Toast.makeText(GPSUpdateService.this, "위치가 바껴서 수정함", Toast.LENGTH_SHORT).show();
                         }
                         else{
+                            FirebaseMessaging.getInstance().subscribeToTopic(nowLocation);
                             Toast.makeText(GPSUpdateService.this, "서비스 작동중임", Toast.LENGTH_SHORT).show();
                         }
                     }

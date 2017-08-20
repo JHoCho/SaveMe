@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.jaeho.myapplication.R;
+import com.example.jaeho.myapplication.View.LoginActivity;
 import com.example.jaeho.myapplication.View.MainActivity;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -78,9 +79,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
     private void sendNotification(Map data) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,PendingIntent.FLAG_ONE_SHOT);
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("lat",Double.parseDouble((String)data.get("lat")));
+        intent.putExtra("lng",Double.parseDouble((String)data.get("lng")));
+        intent.putExtra("flag",true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,PendingIntent.FLAG_UPDATE_CURRENT);
         //Toast.makeText(this, messageBody, Toast.LENGTH_SHORT).show();
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)

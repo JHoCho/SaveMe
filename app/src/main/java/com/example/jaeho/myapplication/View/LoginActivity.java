@@ -56,11 +56,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mContext = LoginActivity.this;
+
         initData();
         loginBtn = (OAuthLoginButton) findViewById(R.id.loginBtn);
         joinText = (TextView) findViewById(R.id.joinText);
         mOAuthLoginModule.startOauthLoginActivity(LoginActivity.this, mOAuthLoginHandler);//들어가자마자 토큰검사
     }
+
+
 
     private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
         @Override
@@ -162,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
             myInform.setLocation("sssss");
             myInform.setAge(String.valueOf(childMap.get("age")));
             //myInform.setName(String.valueOf(childMap.get("name")));
-            myDao.checkSignUp(myInform.getEmail());
+            myDao.checkSignUp(myInform.getEmail(),getIntent());
         }
     }
 }

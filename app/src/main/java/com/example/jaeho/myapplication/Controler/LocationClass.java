@@ -3,6 +3,7 @@ package com.example.jaeho.myapplication.Controler;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,11 +31,12 @@ public class LocationClass {
                     list.get(0).getLocality()//중구
             ;
             arr[0] = name;
+
             list =  geocoder2.getFromLocation(lat,lng,10);
 
             name = list.get(0).getLocality() //인천
-                    +"_"+    list.get(0).getSubLocality();
-
+                    +"_"+
+                    list.get(0).getSubLocality();//중구
             arr[1] = name;
         }catch (IOException e){
 
