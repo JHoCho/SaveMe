@@ -155,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Date d = new Date();
             SimpleDateFormat formatType = new SimpleDateFormat("yyyy-MM-dd kk:mm");
-            myInform.setTime(formatType.format(d));
+            myInform.setTime(0);
 
             myInform.setLat(nGeoPoint.getLatitude());
             myInform.setLng(nGeoPoint.getLongitude());

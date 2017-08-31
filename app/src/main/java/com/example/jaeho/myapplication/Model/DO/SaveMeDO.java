@@ -11,7 +11,7 @@ public class SaveMeDO {
     private double lng;
     private String location;
     private String name;
-    private String time;
+    private long time;
     private String email;
     public SaveMeDO(){}
 
@@ -63,11 +63,11 @@ public class SaveMeDO {
         this.name = name;
     }
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
     }
 }
